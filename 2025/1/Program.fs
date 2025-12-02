@@ -28,9 +28,8 @@ let partTwo (moves: seq<int>) =
     |> Seq.fold
       (fun (count) move ->
         let current = dial.index
-        let actual = move % 100
         let rotations = abs (move / 100)
-        dial.rotate actual
+        dial.rotate move
 
         let mutable next = count + rotations
         if dial.index = 0 then
