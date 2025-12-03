@@ -19,7 +19,7 @@ type PartOneId (text: string, value: Int64) =
 
 type PartTwoId (text: String, value: Int64) =
   interface Id with
-    member this.isFake = failwith "todo"
+    member this.isFake = raise (NotImplementedException())
     member this.value = value
 
 let toRange (s: string) =
