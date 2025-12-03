@@ -18,8 +18,16 @@ type PartOneId (text: string, value: Int64) =
     member this.value: Int64 = value
 
 type PartTwoId (text: String, value: Int64) =
+  let fake (text: string) =
+    match text.Length with
+    | 2 -> text.Chars 0 = text.Chars 1
+    | 3 -> text.Chars 0 = text.Chars 1 && text.Chars 1 = text.Chars 2
+    | 4 -> text.Chars 0 = text.Chars 1 && text.Chars 2 = text.Chars 3
+    | _ -> raise (NotImplementedException())
+
   interface Id with
-    member this.isFake = raise (NotImplementedException())
+    member this.isFake = fake text
+
     member this.value = value
 
 let toRange (s: string) =
