@@ -18,7 +18,7 @@ let toRange (s: string) =
   let last= Int64.Parse parts[1]
   [start..last]
 
-let ids =
+let total =
   File.ReadAllText "./input.txt"
     |> _.Split(",")
     |> Array.toSeq
@@ -26,9 +26,6 @@ let ids =
     |> Seq.collect id
     |> Seq.map
       (fun id -> Id (string id, id))
-
-let total =
-  ids
     |> Seq.filter _.isFake
     |> Seq.map _.value
     |> Seq.sum
