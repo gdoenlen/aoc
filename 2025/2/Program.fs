@@ -23,7 +23,7 @@ type PartTwoId (text: String, value: Int64) =
     | 2 -> text.Chars 0 = text.Chars 1
     | 3 -> text.Chars 0 = text.Chars 1 && text.Chars 1 = text.Chars 2
     | 4 -> text.Chars 0 = text.Chars 1 && text.Chars 2 = text.Chars 3
-    | _ -> raise (NotImplementedException())
+    | _ -> failwith "todo"
 
   interface Id with
     member this.isFake = fake text
