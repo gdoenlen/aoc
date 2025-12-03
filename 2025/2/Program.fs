@@ -1,6 +1,19 @@
 ﻿open System
 open System.IO
 
+
+type Id(value: string) =
+  member this.isFake =
+    if Int32.IsEvenInteger value.Length then
+      let middle = value.Length / 2 // 0 based middle
+      let left = value.Substring(0, middle)
+      let right = value.Substring middle
+      left = right
+    else
+      false
+  member this.value: Int64 =
+    Int64.Parse value
+
 let ids =
   let text = File.ReadAllText "./input.txt"
   text.Split(",")
@@ -13,27 +26,15 @@ let ids =
         [start..last])
     |> Seq.collect
       (fun lst -> lst)
-
-let evenIds (ids: seq<int64>) =
-  ids
     |> Seq.map
-      (fun id -> string id)
-    |> Seq.filter
-      (fun id -> Int32.IsEvenInteger id.Length)
-
-let matches (ids: seq<string>) =
-  ids
-    |> Seq.filter
-      (fun id ->
-        let middle = id.Length / 2 // 0 based middle
-        let left = id.Substring(0, middle)
-        let right = id.Substring middle
-        left = right)
-    |> Seq.map
-      (fun id -> Int64.Parse id)
+      (fun id -> Id (string id))
 
 let total =
-  matches (evenIds ids)
-   |> Seq.sum
+  ids
+    |> Seq.filter
+      (fun id -> id.isFake)
+    |> Seq.map
+      (fun id -> id.value)
+    |> Seq.sum
 
 printfn "%d" total
