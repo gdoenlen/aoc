@@ -1,7 +1,6 @@
 ﻿open System
 open System.IO
 
-
 type Id(value: string) =
   member this.isFake =
     if Int32.IsEvenInteger value.Length then
