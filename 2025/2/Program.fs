@@ -6,9 +6,9 @@ type Id(value: string) =
   member this.isFake =
     if Int32.IsEvenInteger value.Length then
       let middle = value.Length / 2 // 0 based middle
-      let left = value.Substring(0, middle)
-      let right = value.Substring middle
-      left = right
+      let left = value.AsSpan(0, middle)
+      let right = value.AsSpan middle
+      left.SequenceEqual right
     else
       false
   member this.value: Int64 =
