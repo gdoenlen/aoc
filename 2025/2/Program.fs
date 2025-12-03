@@ -18,15 +18,38 @@ type PartOneId (text: string, value: Int64) =
     member this.value: Int64 = value
 
 type PartTwoId (text: String, value: Int64) =
-  let fake (text: string) =
-    match text.Length with
-    | 2 -> text.Chars 0 = text.Chars 1
-    | 3 -> text.Chars 0 = text.Chars 1 && text.Chars 1 = text.Chars 2
-    | 4 -> text.Chars 0 = text.Chars 1 && text.Chars 2 = text.Chars 3
-    | _ -> failwith "todo"
+  let chunks (size: int) =
+    [0..size]
+    |> List.map
+      (fun i -> text.Substring (i * size, size))
+
+  let allMatch (items: List<'a>) =
+    let item =
+      items
+      |> List.tryFind
+        (fun item -> item <> items[0])
+    match item with
+    | Some _ -> false
+    | None -> true
+
+  let isChunkable size = text.Length % size = 0
 
   interface Id with
-    member this.isFake = fake text
+    member this.isFake =
+      let mutable loop = true
+      let mutable i = text.Length - 1
+      let mutable fake = false
+      while loop && i > 0 do
+        printfn "%d" i
+        if isChunkable i then
+          let chunkSize = text.Length / i
+          let chunks = chunks chunkSize
+          if allMatch chunks then
+            fake <- true
+            loop <- false
+        else
+          i <- i - 1
+      fake
 
     member this.value = value
 
@@ -56,3 +79,4 @@ let total part =
     |> Seq.sum
 
 printfn "%d" (total One)
+printfn "%d" (total Two)
