@@ -19,8 +19,8 @@ let toRange (s: string) =
   [start..last]
 
 let ids =
-  let text = File.ReadAllText "./input.txt"
-  text.Split(",")
+  File.ReadAllText "./input.txt"
+    |> _.Split(",")
     |> Array.toSeq
     |> Seq.map toRange
     |> Seq.collect id
@@ -29,10 +29,8 @@ let ids =
 
 let total =
   ids
-    |> Seq.filter
-      (fun id -> id.isFake)
-    |> Seq.map
-      (fun id -> id.value)
+    |> Seq.filter _.isFake
+    |> Seq.map _.value
     |> Seq.sum
 
 printfn "%d" total
