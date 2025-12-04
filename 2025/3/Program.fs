@@ -17,8 +17,6 @@ type Battery (value: string) =
     lindex
 
   let maxR start =
-    printfn "  starting r search at %d" start
-    printfn "  maxL = %c" value[start - 1]
     let mutable r = toInt value[start]
     let mutable rindex = start
     let mutable i = start + 1
@@ -35,16 +33,13 @@ type Battery (value: string) =
     let l = string value[lindex]
     let rindex = maxR (lindex + 1)
     let r = string value[rindex]
-    printfn "lr = %s" (l + r)
     Int32.Parse (l + r)
 
 let total =
   File.ReadAllLines "./input.txt"
     |> Array.toSeq
     |> Seq.map
-      (fun batt ->
-        printfn "batt %s" batt
-        Battery batt)
+      (fun batt -> Battery batt)
     |> Seq.map _.maxJolts
     |> Seq.sum
 
