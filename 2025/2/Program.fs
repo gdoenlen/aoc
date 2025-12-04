@@ -19,19 +19,23 @@ type PartOneId (text: string, value: Int64) =
 
 type PartTwoId (text: String, value: Int64) =
   let chunks (size: int) =
-    seq {
-      for i in 0..size..text.Length ->
-        text.Substring (i, min size (text.Length - 1))
-    }
+    let length = text.Length
+    [ for i in 0 .. size .. (length - 1) do
+        yield text.Substring(i, min size (length - i)) ]
 
-  let allMatch (items: List<'a>) =
-    let item =
-      items
-      |> Seq.tryFind
-        (fun item -> item <> items[0])
-    match item with
-    | Some _ -> false
-    | None -> true
+  let allMatch (items: List<string>) =
+    if items.Length = 1 then
+      items.Head
+        |> Seq.forall
+          (fun ch -> ch = items.Head.Chars 0)
+    else
+      let item =
+        items
+        |> Seq.tryFind
+          (fun item -> item <> items[0])
+      match item with
+      | Some _ -> false
+      | None -> true
 
   let isChunkable size = text.Length % size = 0
 
