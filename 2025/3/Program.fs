@@ -8,7 +8,7 @@ type Battery (value: string) =
     let mutable v = toInt value[start]
     let mutable vindex = start
     let mutable i = start + 1
-    while i < stop do
+    while i <= stop do
       let t = toInt value[i]
       if t > v then
         v <- t
